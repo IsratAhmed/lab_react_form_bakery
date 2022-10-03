@@ -27,6 +27,20 @@ const RecipeContainer = () => {
     ]);
 
     const [applicationsOpen, setApplicationOpen] = useState(true);
+    const [searchName, setSearchName] = useState("");
+
+    const handleSearchNameChange = (event) => {
+        setSearchName(event.target.value);
+    }
+
+    const handleSearchFormSubmission = (event) => {
+        event.preventDefault();
+        console.log("Search submitted");
+        const results = cakes.filter((cake) => {
+            return cake.cakeName.includes(searchName);
+        })
+        setCakes(results);
+    }
 
     const addNewCake = (newCake) => {
 
@@ -39,11 +53,18 @@ const RecipeContainer = () => {
 
     return (
         <>
+        <form onSubmit={handleSearchFormSubmission}>
+            <label>Search for a cake:</label>
+            <input type="text" placeholder="Search by name" onChange={handleSearchNameChange} value={searchName}/>
+            <input type="submit" value="Search" />
+        </form>
         <h2>Cake Directory</h2>
         <NewCake onSubmit={addNewCake} />
         <RecipeList cakes={cakes} />
         </>
     )
 }
+
+
 
 export default RecipeContainer;
